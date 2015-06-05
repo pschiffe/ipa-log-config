@@ -152,7 +152,7 @@ class Requirements(object):
     def check_sssd(self):
         if not os.path.isfile(_CONFIG_SSSD_CONF_FILE):
             raise RequirementError('SSSD config file "{0}" does not exist. '
-                'Belongs this machine do the IPA domain?'.format(
+                'Does this machine belong to an IPA domain?'.format(
                 _CONFIG_SSSD_CONF_FILE))
 
     def check_all(self):
@@ -379,7 +379,7 @@ def main():
             'under certain conditions; see LICENSE file for details.')
     parser.add_argument('-t', '--target',
         help='destination address of target central logging server. Can be '
-            'domain name or IP address')
+            'either a domain name or IP address')
     parser.add_argument('-r', '--revert', action='store_true',
         help='revert configuration done by this script - return to the '
             'default state')
