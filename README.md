@@ -1,6 +1,6 @@
 # ipa-log-config
 
-Tool for log forwarding configuration on IPA servers and clients. Configures rsyslog to collect and forward selected log files to desired remote server.
+A tool for log forwarding configuration on IPA servers and clients. Configures rsyslog to collect and forward selected log files to desired remote server.
 
 ## Usage
 
@@ -8,7 +8,7 @@ Tool for log forwarding configuration on IPA servers and clients. Configures rsy
 # ./ipa_log_config.py --target <domain name or ip of target server>
 ```
 
-To revert changes done by this script, `--revert` option can be used:
+To revert changes done by this script, the `--revert` option can be used:
 
 ```
 # ./ipa_log_config.py --revert
@@ -16,7 +16,7 @@ To revert changes done by this script, `--revert` option can be used:
 
 ## Detailed description
 
-Tool tries to be as not invasive as possible. All the rsyslog configuration is done in the separate files, which could be easily removed. Besides that, it configures debug level of SSSD and enables audisp syslog plugin. All logs are written to their original destination AND sent to the remote server, so no log is lost from the local machine.
+This tool tries to be as not invasive as possible. All the rsyslog configuration is done in the separate files, which could be easily removed. Besides that, it configures debug level of SSSD and enables audisp syslog plugin. All logs are written to their original destination AND sent to the remote server, so no logs are lost from the local machine.
 
 ### Forwarded logs
 
@@ -45,4 +45,4 @@ Tool tries to be as not invasive as possible. All the rsyslog configuration is d
 /var/log/sssd/sssd_ifp.log
 ```
 
-Most of the files are forwarded using rsyslog imfile module. Exceptions are audit and secure log. Audit is sent to rsyslog using audisp syslog plugin and secure log is written directly by rsyslog, so only forwarding is added for this one. 
+Most of the files are forwarded using rsyslog imfile module. The only exceptions are audit and secure logs. Audit is sent to rsyslog using audisp syslog plugin and secure log is written directly by rsyslog, so only forwarding is added for this one. 
