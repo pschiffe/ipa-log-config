@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Tool for configuring log forwarding on IPA servers and clients
+# Tool for log forwarding configuration on IPA servers and clients
 # Copyright (C) 2015  Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -44,12 +44,12 @@ class SSSD(object):
         self._sssdconfig.import_config(config_file)
 
     def _get_service_objects(self):
-        return [ self._sssdconfig.get_service(service_name)
-            for service_name in self._sssdconfig.list_services() ]
+        return [self._sssdconfig.get_service(service_name)
+            for service_name in self._sssdconfig.list_services()]
 
     def _get_domain_objects(self):
-        return [ self._sssdconfig.get_domain(domain_name)
-            for domain_name in self._sssdconfig.list_domains() ]
+        return [self._sssdconfig.get_domain(domain_name)
+            for domain_name in self._sssdconfig.list_domains()]
 
     def _debug_all_services(self, debug_level, leave_higher=True):
         for srv in self._get_service_objects():
@@ -341,7 +341,8 @@ class Rsyslog(object):
 
     def _clean_config(self):
         config_files = self._get_conf_files_full_path()
-        print 'Rsyslog: cleaning up config files:\n  ' + '\n  '.join(config_files)
+        print 'Rsyslog: cleaning up config files:\n  ' + \
+            '\n  '.join(config_files)
         for f in config_files:
             try:
                 os.remove(f)
