@@ -1,6 +1,6 @@
 # ipa-log-config
 
-A tool for log forwarding configuration on IPA servers and clients. Configures rsyslog to collect and forward selected log files to desired remote server.
+A tool for log forwarding configuration on IPA servers and clients. Configures rsyslog to collect and forward selected log files to desired remote server. For more information about this effort and some inspiration what can be done with those logs, visit [this page](https://www.freeipa.org/page/Centralized_Logging).
 
 ## Usage
 
