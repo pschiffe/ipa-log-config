@@ -196,8 +196,7 @@ class Rsyslog(object):
     _IMFILE_RULE_TEMPLATE = 'input(type="imfile"\n' \
         '  ruleset="{ruleset}"\n' \
         '  file="{log_file}"\n' \
-        '  tag="{tag}"\n' \
-        '  stateFile="ipa-log-{state_file}.ste")\n\n'
+        '  tag="{tag}")\n'
 
     _ELASTIC_REMOTE_RULESET_TEMPLATE = 'ruleset(name="{ruleset}") {{\n' \
         '  action(type="omfwd"\n' \
@@ -209,7 +208,8 @@ class Rsyslog(object):
         '  queue.dequeuebatchsize="200"\n' \
         '  queue.saveOnShutdown="on"\n' \
         '  action.resumeRetryCount="-1")\n' \
-        '}}'
+        '}}\n' \
+        '$WorkDirectory /var/lib/rsyslog\n\n'
 
     _STATIC_LOG_DATA = {
         '/var/log/httpd/access_log':
