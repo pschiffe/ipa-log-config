@@ -201,7 +201,7 @@ class Rsyslog(object):
     _ELASTIC_REMOTE_RULESET_TEMPLATE = 'ruleset(name="{ruleset}") {{\n' \
         '  action(type="omfwd"\n' \
         '  target="{target}"\n' \
-        '  port="514"\n' \
+        '  port="{target_port}"\n' \
         '  protocol="tcp"\n' \
         '  queue.type="linkedlist"\n' \
         '  queue.size="4000"\n' \
@@ -323,14 +323,14 @@ class Rsyslog(object):
             cf.write(self._AUTHPRIV_FORWARD_RULE.format(
                 ruleset=self._REMOTE_RULESET))
 
-    def _write_elastic_remote_rule(self, target):
+    def _write_elastic_remote_rule(self, target, target_port):
         cfpath = self._create_conf_file_full_path(
             '00.remote-ipa-elastic-ruleset')
         print 'Rsyslog: creating ruleset for forwarding logs [{0}]'.format(
             cfpath)
         with open(cfpath, 'w') as cf:
             cf.write(self._ELASTIC_REMOTE_RULESET_TEMPLATE.format(
-                ruleset=self._REMOTE_RULESET, target=target))
+                ruleset=self._REMOTE_RULESET, target=target, target_port=target_port))
 
     def _restart(self):
         print 'Enabling and restarting rsyslog service.'
@@ -350,10 +350,10 @@ class Rsyslog(object):
                 #print 'Could not remove file "{0}": {1}'.format(f, e)
                 pass
 
-    def write_config(self, target):
+    def write_config(self, target, target_port):
         self._clean_config()
         self._write_imfile_load()
-        self._write_elastic_remote_rule(target)
+        self._write_elastic_remote_rule(target, target_port)
         self._write_auditd_fwd_rule()
         self._write_authpriv_fwd_rule()
         for f, v in self._get_log_data().iteritems():
@@ -381,6 +381,12 @@ def main():
     parser.add_argument('-t', '--target',
         help='destination address of target central logging server. Can be '
             'either a domain name or IP address')
+    parser.add_argument('-p', '--target-port',
+        help='destination port to access central logging server. If left out '
+            'a default of 514 will be choosen',
+        default=514,
+        dest='target_port')
+
     parser.add_argument('-r', '--revert', action='store_true',
         help='revert configuration done by this script - return to the '
             'default state')
@@ -398,9 +404,9 @@ def main():
         if args.target:
             SSSD().enable_debug()
             Auditd().log_to_syslog()
-            Rsyslog().write_config(args.target)
+            Rsyslog().write_config(args.target, args.target_port)
             print 'Configuration completed successfully, IPA logs are ' \
-                'forwarded to ' + args.target
+                'forwarded to ' + args.target + ':' + args.target_port
         elif args.revert:
             SSSD().enable_debug(1, False)
             Auditd().revert()
