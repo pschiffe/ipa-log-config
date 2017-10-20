@@ -406,7 +406,7 @@ def main():
             Auditd().log_to_syslog()
             Rsyslog().write_config(args.target, args.target_port)
             print 'Configuration completed successfully, IPA logs are ' \
-                'forwarded to ' + args.target + ':' + args.target_port
+                'forwarded to ' + args.target + ':' + str(args.target_port)
         elif args.revert:
             SSSD().enable_debug(1, False)
             Auditd().revert()
