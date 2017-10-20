@@ -18,6 +18,10 @@ To revert changes done by this script, use the `--revert` option:
 
 Currently, only RHEL 7 / CentOS 7 and derivates are supported.
 
+## Requirements
+
+The script requires `python2-sssdconfig` package.
+
 ## Detailed description
 
 This tool tries to be as not invasive as possible. The rsyslog configuration is done in the separate files, which could be easily removed. Besides that, it configures debug level of SSSD and enables audisp syslog plugin. All logs are written to their original destination AND sent to the remote server, so no logs are lost from the local machine.
