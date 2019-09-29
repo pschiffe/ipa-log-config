@@ -113,9 +113,11 @@ class Auditd(object):
     _AUDITD_SYSLOG_CONF = '/etc/audisp/plugins.d/syslog.conf'
 
     def _restart(self):
-        print 'Reloading auditd'
-        if call(['systemctl', 'reload', 'auditd']) != 0:
-            raise ExternalCommandError('Failed to reload auditd')
+        # why not systemctl?
+        # https://bugzilla.redhat.com/show_bug.cgi?id=1026648
+        print 'Restarting auditd'
+        if call(['service', 'auditd', 'restart']) != 0:
+            raise ExternalCommandError('Failed to restart auditd')
 
     def log_to_syslog(self):
         print 'Enabling audisp syslog plugin'
